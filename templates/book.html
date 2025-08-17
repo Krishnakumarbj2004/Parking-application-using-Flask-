@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Parking</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Book Parking Spot</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('book_spot') }}">
+                    <div class="form-group">
+                        <label for="lot_id">Choose Parking Lot:</label>
+                        <select class="form-control" id="lot_id" name="lot_id" required>
+                            {% for lot in lots %}
+                                <option value="{{ lot['id'] }}">{{ lot['id'] }} - {{ lot['prime_location_name']}} - {{ lot['pin_code'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vehicle_number">Vehicle Number</label>
+                        <input type="text" class="form-control" id="vehicle_number" name="vehicle_number"
+                               pattern="^TN\s\d{2}\s[A-Z]{2}\s\d{4}$" placeholder="TN 01 XX 0001" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Book Spot</button>
+                    <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary btn-block">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

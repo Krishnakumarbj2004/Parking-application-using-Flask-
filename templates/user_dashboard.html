@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Parking System</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+    </nav>
+
+    <div class="container mt-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <h3>Welcome, {{ session['username'] }}!</h3>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Book Parking</div>
+                    <div class="card-body">
+                        
+                        <a href="{{ url_for('book_spot') }}" class="btn btn-light">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Release Spot</div>
+                    <div class="card-body">
+                        
+                        <a href="{{ url_for('release_spot') }}" class="btn btn-light">Release</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">My Parking Summary</div>
+                    <div class="card-body">
+                        
+                        <a href="{{ url_for('user_summary') }}" class="btn btn-light">View Summary</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if current_booking %}
+            <div class="alert alert-warning mt-4">
+                <strong>Active Booking:</strong><br>
+                Lot: {{ current_booking['lot_name'] }}<br>
+                Spot: {{ current_booking['spot_number'] }}<br>
+                Start Time: {{ current_booking['start_time'] }}<br>
+                vehicle: {{ current_booking['vehicle_number'] }}
+            </div>
+        {% endif %}
+        {% if cost %}
+            <div class="alert alert-success mt-4">
+                <strong>Parking Fee:</strong> ₹{{ cost }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

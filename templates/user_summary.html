@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Parking Summary</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .summary-metric {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .table-wrapper {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .chart-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Parking Summary</h4>
+        </div>
+        <div class="card-body">
+            <p class="summary-metric">Total Reservations: {{ total_reservations }}</p>
+            <p class="summary-metric">Total Hours Used: {{ total_hours }}</p>
+            <p class="summary-metric">Total Amount Paid: ₹{{ total_paid }}</p>
+
+            <hr>
+
+            <h5>Hours Used Chart</h5>
+            <img class="chart-img" src="data:image/png;base64,{{ chart_data }}" alt="Usage Chart">
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Reservation Details</h5>
+        </div>
+        <div class="card-body table-wrapper">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Spot ID</th>
+                        <th>Lot Name</th>
+                        <th>Check-in</th>
+                        <th>Checkout</th>
+                        <th>Hours</th>
+                        <th>Amount Paid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in summary %}
+                    <tr>
+                        <td>{{ row.reservation_id }}</td>
+                        <td>{{ row.spot_id }}</td>
+                        <td>{{ row.lot_name }}</td>
+                        <td>{{ row.timestamp }}</td>
+                        <td>{{ row.leaving if row.leaving else 'Ongoing' }}</td>
+                        <td>{{ row.hours }}</td>
+                        <td>{{ row.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

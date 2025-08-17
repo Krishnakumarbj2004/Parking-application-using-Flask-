@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #343a40;
+        padding: 10px 20px;
+        color: white;
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+        font-weight: bold;
+    }
+
+    .navbar a:hover {
+        text-decoration: underline;
+    }
+
+    .navbar-left,
+    .navbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-right .username {
+        margin-right: 15px;
+        font-style: italic;
+    }
+
+    .nav-links a {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .navbar-left,
+        .navbar-right {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .navbar-right {
+            margin-top: 10px;
+        }
+
+        .navbar a {
+            margin: 5px 0;
+        }
+    }
+</style>
+
+</head>
+<body class="bg-light">
+    <div class="navbar">
+    <div class="navbar-left">
+        <a href="{{ url_for('user_dashboard') }}">Parking System</a>
+        <div class="nav-links">
+            <a href="{{ url_for('book_spot') }}">Book</a>
+            <a href="{{ url_for('release_spot') }}">Release</a>
+            <a href="{{ url_for('user_summary') }}">Summary</a>
+        </div>
+    </div>
+    <div class="navbar-right">
+        <span class="username">Welcome, {{ session['username'] }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+
+    <div class="container mt-5">
+        {% if user_bookings %}
+    <div class="alert alert-success">
+        <h4>Your Active Bookings</h4>
+        {% for booking in user_bookings %}
+            <div class="mb-3 p-3 border rounded bg-light">
+                <p><strong>Lot:</strong> {{ booking.lot_name }}</p>
+                <p><strong>Spot Number:</strong> {{ booking.spot_number }}</p>
+                <p><strong>Start Time:</strong> {{ booking.start_time }}</p>
+                <p><strong>Vehicle Number:</strong> {{ booking.vehicle_number }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        <h5>You have no active reservations.</h5>
+    </div>
+{% endif %}
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</body>
+</html>

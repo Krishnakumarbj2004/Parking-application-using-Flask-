@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Spots</title>
+</head>
+<body>
+    <h2>Available Spots in Lot: {{ lot.prime_location_name }}</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <table border="1">
+        <tr>
+            <th>Spot ID</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for spot in spots %}
+        <tr>
+            <td>{{ spot.id }}</td>
+            <td>{{ spot.status }}</td>
+            <td>
+                <a href="{{ url_for('delete_spot', spot_id=spot.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('view_lots') }}">Back to Lots</a>
+</body>
+</html>
